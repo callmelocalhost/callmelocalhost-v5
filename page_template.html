@@ -1,0 +1,16 @@
+[[ include file="callmelocalhost-v5/_sub_header.html" ]]
+  <article>
+    <header>     
+      [[ editlink format="Edit" prefix="<p class='meta'>" postfix="</p>"  ]]
+      <h1> [[ title ]]</h1>
+      [[ if $entry.subtitle!= "" ]]
+        <p>[[subtitle]]</p>
+      [[ /if ]]
+    </header>
+
+
+    [[ introduction ]]
+    [[ body ]]
+  </article>
+
+[[ include file="callmelocalhost-v5/_sub_footer.html" ]]
