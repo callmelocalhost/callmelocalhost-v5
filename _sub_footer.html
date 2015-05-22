@@ -1,0 +1,301 @@
+    </div> <!-- #main -->
+  </div> <!-- #main-container -->
+
+  <div class="footer-container">
+    <footer class="wrapper">
+      <ul class="icons" id="social">
+        <li>
+          <a title="Twitter" href="https://twitter.com/jarno" class="twitter"></a>
+        </li>
+        <li>
+          <a title="Facebook" href="https://www.facebook.com/jarnodewit" class="facebook"></a>
+        </li>
+        <li>
+          <a title="Google+" href="https://plus.google.com/+jarnodewit?rel=author" class="google"></a>
+        </li>
+        <li>
+          <a title="Github" href="https://github.com/127001" class="github"></a>
+        </li>
+        <li>
+          <a title="Pinterest" href="http://www.pinterest.com/jarnodewit/" class="pinterest"></a>
+        </li>
+        <li>
+          <a title="LinkedIn" href="http://www.linkedin.com/in/jarnodewit" class="linkedin"></a>
+        </li>
+        <li>
+          <a title="RSS" href="http://callmelocalhost.com/rss" class="rss"></a>
+        </li>
+      </ul>
+      <p> 
+[[if $modifier.pagetype=="search"]]
+    [[assign var=placeholder value=$modifier.uri|escape]]
+[[else]]
+    [[assign var=placeholder value="Zoeken..."]]
+[[/if]]
+<form method="post" action="[[home]]?q=" class="pivotx-search"> 
+        Copyright &copy; 2002 - [[date format="%year%"]] Jarno de Wit, <a href="http://callmelocalhost.com/page/over">Over</a>
+        <a class="snap_nopreview" onclick="javascript:urchinTracker ('/outgoing/CC3'); " title="Creative Commons" href="http://creativecommons.org/licenses/by-nc-sa/3.0/nl/">
+          CC some rights reserved</a>
+        
+        &nbsp;&nbsp;<input id="search" type="text" name="q" class="searchbox" 
+            value="[[$placeholder]]" onblur="if(this.value=='') this.value='[[$placeholder]]';" 
+            onfocus="if(this.value=='[[$placeholder]]') this.value=''; this.select();return true;" /> 
+<!-- Javascript enabled Jumpmenu for the archives -->  
+<select id="archivemenu" style='display:none;'>  
+
+[[ archive_list unit='month' order='desc'  
+   format='<option value="%url%">%st_monname% %st_year%</option>'  
+]]  
+
+</select> 
+
+<!-- Accessible version, for users without Javascript -->  
+<noscript>  
+<ul>  
+[[ archive_list  
+   unit='month'  
+   order='desc'  
+   format='<li><a href="%url%">%st_monname% %st_year%</a></li>'       
+]]  
+</ul>   
+</noscript> 
+</form>
+[[php]]
+function tla_ads()
+{
+    // Number of seconds before connection to XML times out
+    // (This can be left the way it is)
+    $CONNECTION_TIMEOUT = 15;
+
+    // Local file to store XML
+    // This file MUST be writable by web server
+    // You should create a blank file and CHMOD it to 666
+    $LOCAL_FILENAME = 'local_381783.xml';
+    $OUTPUT_DECODING = false;  // example methods are BIG-5 ISO for fill list see http://www.php.net/manual/en/function.mb-list-encodings.php
+    
+    
+    // make sure output decoding is an option with iconv existing
+    $OUTPUT_DECODING = $OUTPUT_DECODING && function_exists('iconv') ? $OUTPUT_DECODING : false;
+    
+    if (!file_exists($LOCAL_FILENAME)) {
+        @touch($LOCAL_FILENAME);
+        @chmod($LOCAL_FILENAME, 0666);
+    }
+
+    if (!file_exists($LOCAL_FILENAME)) {
+        die("Script error: $LOCAL_FILENAME does not exist. Please create a blank file named $LOCAL_FILENAME.");
+    }
+
+    if (!is_writable($LOCAL_FILENAME)) {
+        die("Script error: $LOCAL_FILENAME is not writable. Please set write permissions on $LOCAL_FILENAME.");
+    }
+
+    if (filemtime($LOCAL_FILENAME) < (time() - 3600) || filesize($LOCAL_FILENAME) < 3) {
+        $url = 'http://www.text-link-ads.com/xml.php?k=VTMBMWJH4E6TQRMXKTQS&l=php-tla-2.0.5';
+        
+        if (function_exists('json_decode') && is_array(json_decode('{"a":1}', true))) {
+            $url .= '&f=json';
+        }
+
+        tla_updateLocal($url, $LOCAL_FILENAME, $CONNECTION_TIMEOUT);
+    }
+
+    $xml = tla_getLocal($LOCAL_FILENAME);
+    $links = tla_decode($xml);
+
+    if ($links && is_array($links)) {
+        echo "\n<ul style='visibility:hidden;'>\n";
+        foreach ($links as $link) {
+            if (isset($link['PostID']) && $link['PostID'] > 0) {
+                continue;
+            }
+            if ($OUTPUT_DECODING) {
+                $beforeText = ($link['BeforeText'] ? iconv('UTF-8', $OUTPUT_DECODING, $link['BeforeText']) . ' ' : '');
+                $afterText = ($link['AfterText'] ? ' ' . iconv('UTF-8', $OUTPUT_DECODING, $link['AfterText']) : '');
+                $text = iconv('UTF-8', $OUTPUT_DECODING, $link['Text']);
+            } else {
+                $beforeText = ($link['BeforeText'] ? $link['BeforeText'] . ' ' : '');
+                $afterText = ($link['AfterText'] ? ' ' . $link['AfterText'] : '');
+                $text = $link['Text'];
+            }
+            echo "<li>" . $beforeText . '<a href="' . $link['URL'] . '">' . $text . '</a>' . $afterText . "</li>\n";
+        }
+        echo '</ul>';
+    }
+}
+
+function tla_updateLocal($url, $file, $time_out)
+{
+    @touch($file);
+
+    if ($xml = file_get_contents_tla($url, $time_out)) {
+        if ($handle = fopen($file, 'w')) {
+            fwrite($handle, $xml);
+            fclose($handle);
+        }
+    }
+}
+
+function tla_getLocal($file)
+{
+    if (function_exists('file_get_contents')) {
+        return file_get_contents($file);
+    }
+
+    $contents = '';
+    if ($handle = fopen($file, 'r')) {
+        $contents = fread($handle, filesize($file) + 1);
+        fclose($handle);
+    }
+
+    return $contents;
+}
+
+function file_get_contents_tla($url, $time_out)
+{
+    $result = '';
+    $urlInfo = parse_url($url);
+
+    if ($handle = @fsockopen($urlInfo['host'], 80)) {
+        if (function_exists('socket_set_timeout')) {
+            socket_set_timeout($handle, $time_out, 0);
+        } else if (function_exists('stream_set_timeout')) {
+            stream_set_timeout($handle, $time_out, 0);
+        }
+
+        fwrite($handle, 'GET ' . $urlInfo['path'] . '?' . $urlInfo['query'] . " HTTP/1.0\r\nHost: " . $urlInfo['host'] . "\r\nConnection: Close\r\n\r\n");
+        while (!feof($handle)) {
+            $result .= @fread($handle, 40960);
+        }
+        fclose($handle);
+    } else if (function_exists('curl_init')) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $time_out);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $time_out);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+    }
+
+    $return = '';
+    $capture = false;
+    foreach (explode("\n", $result) as $line) {
+        $char = substr(trim($line), 0, 1);
+        if ($char == '[' || $char == '<') {
+            $capture = true;
+        }
+
+        if ($capture) {
+            $return .= $line . "\n";
+        }
+    }
+
+    return $return;
+}
+
+function tla_decode($str)
+{
+    if (!function_exists('html_entity_decode')) {
+        function html_entity_decode($string)
+        {
+           // replace numeric entities
+           $string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\1"))', $string);
+           $string = preg_replace('~&#([0-9]+);~e', 'chr(\1)', $string);
+           // replace literal entities
+           $trans_tbl = get_html_translation_table(HTML_ENTITIES);
+           $trans_tbl = array_flip($trans_tbl);
+           return strtr($string, $trans_tbl);
+        }
+    }
+
+    if (substr($str, 0, 1) == '[') {
+        $arr = json_decode($str, true);
+        foreach ($arr as $i => $a) {
+            foreach ($a as $k => $v) {
+                $arr[$i][$k] = tla_decode_str($v);
+            }
+        }
+
+        return $arr;
+    }
+
+    $out = '';
+    $retarr = '';
+
+    preg_match_all("/<(.*?)>(.*?)</", $str, $out, PREG_SET_ORDER);
+    $n = 0;
+    while (isset($out[$n])) {
+        $retarr[$out[$n][1]][] = tla_decode_str($out[$n][0]);
+        $n++;
+    }
+
+    if (!$retarr) {
+        return false;
+    }
+
+    $arr = array();
+    $count = count($retarr['URL']);
+    for ($i = 0; $i < $count; $i++) {
+        $arr[] = array(
+            'BeforeText' => $retarr['BeforeText'][$i],
+            'URL' => $retarr['URL'][$i],
+            'Text' => $retarr['Text'][$i],
+            'AfterText' => $retarr['AfterText'][$i],
+        );
+    }
+
+    return $arr;
+}
+
+function tla_decode_str($str)
+{
+    $search_ar = array('&#60;', '&#62;', '&#34;');
+    $replace_ar = array('<', '>', '"');
+    return str_replace($search_ar, $replace_ar, html_entity_decode(strip_tags($str)));
+}
+tla_ads();
+[[/php]]
+    </footer>
+  </div>
+
+  <script async src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="[[template_dir]]assets/js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
+
+  <script async src="[[template_dir]]assets/js/readingtime.js"></script>
+  <script async src="[[template_dir]]assets/js/brush.js"></script>
+  <script async src="[[template_dir]]assets/js/main.js"></script>
+
+  <!-- Preload links -->
+  <!--script src="[[template_dir]]assets/js/vendor/instantclick.min.js" data-no-instant></script>
+  <script data-no-instant defer>InstantClick.init(100);</script-->
+
+<script type="text/javascript" defer>
+
+  var _gaq = _gaq || [];
+  var pluginUrl =
+  '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-262414-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<!-- MouseFlow -->
+<!--script type="text/javascript">
+   var _mfq = _mfq || [];
+   (function() {
+       var mf = document.createElement("script"); mf.type = "text/javascript"; mf.async = true;
+       mf.src = "//cdn.mouseflow.com/projects/da13d928-c907-42f4-8178-9928cbd918f7.js";
+       document.getElementsByTagName("head")[0].appendChild(mf);
+   })();
+</script-->
+</body>
+</html>

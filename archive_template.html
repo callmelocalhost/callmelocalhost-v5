@@ -1,0 +1,23 @@
+[[ include file="callmelocalhost-v5/_sub_header.html" ]]
+
+<div class="archive">
+[[ subweblog name='standard' ]][[ literal ]]   
+<article>
+  <p class="meta">
+    <time datetime="[[ date format="%year%-%month%-%day%" ]]" pubdate>
+      <i class="icon-calendar"></i> [[ date format="%day% %monthname% %year%" ]]
+    </time>
+    [[ tags text="%tags%" prefix="<br />tags: " postfix="" sep=" " ]]
+    [[ editlink format="Edit" prefix="<br />" ]]
+  </p>
+  <h1><a href="[[ link hrefonly=1 ]]" title="[[ subtitle ]]">[[ title ]]</a></h1>
+  <p>[[ introduction|strip_tags:true|truncate:2000 ]]</p>
+  [[ introduction ]]
+  [[ more prefix="<div class='article-footer'>" postfix="</div>" ]]
+
+</article>
+[[ /literal ]][[ /subweblog ]]  
+[[ paging action='digg' ]]
+</div>
+
+[[ include file="callmelocalhost-v5/_sub_footer.html" ]]

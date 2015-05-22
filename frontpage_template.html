@@ -1,0 +1,25 @@
+[[ include file="callmelocalhost-v5/_sub_header.html" ]]
+
+<div class="homepage" role="main">
+[[ subweblog name='standard' ]][[ literal ]]   
+<article itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  <header>
+  <h1 itemprop="headline"><a href="[[ link hrefonly=1 ]]" title="[[ subtitle ]]" rel="bookmark" itemprop="url">[[ title ]]</a></h1>
+  <p class="meta">
+    <time datetime="[[ date format="%year%-%month%-%day%" ]]" pubdate itemprop="datePublished" datetime="[[ date format="%year%-%month%-%day%T%hour24%:%minute%:00+01:00" ]]">
+      <i class="icon-calendar"></i> [[ date format="%day% %monthname% %year%" ]]
+    </time>
+    Categorie: [[ category link=true ]]<br />
+    [[ tags text="%tags%" prefix="tags: " postfix="" sep=" " ]]
+    [[ editlink format="Edit" ]]
+  </p>
+  </header>
+  <div itemprop="description">[[ introduction ]]</div>
+  [[ more prefix="<div class='article-footer'>" postfix="</div>" ]]
+
+</article>
+[[ /literal ]][[ /subweblog ]]  
+[[ paging action='digg' ]]
+</div>
+
+[[ include file="callmelocalhost-v5/_sub_footer.html" ]]
