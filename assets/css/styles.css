@@ -389,6 +389,7 @@ body form input[type=submit]:active {
 }
 body .footer-container {
   background-color: #333333;
+  clear: both;
   color: white;
   padding: 1rem 0;
   /* end footer */
