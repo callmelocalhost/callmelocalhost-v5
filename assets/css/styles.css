@@ -38,7 +38,7 @@
 /* !Vars */
 /* sprites */
 .sprite {
-  background-image: url(spritesheet.png);
+  background-image: url(../images/spritesheet.png);
   background-repeat: no-repeat;
   display: block;
 }
