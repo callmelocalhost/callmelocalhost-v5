@@ -40,8 +40,68 @@
 @alt-link-color: @hl-color;
 @alt-link-color: #ffffff;
 
-
 /* !Vars */
+
+/* sprites */
+.stitches-sprite(@x: 0, @y: 0, @width: 0, @height: 0) {
+  background-position: @x @y;
+  width: @width;
+  height: @height;
+}
+.sprite {
+  background-image: url(spritesheet.png);    background-repeat: no-repeat;
+  display: block;
+
+  &.sprite-cloud-sociocon {
+    .stitches-sprite(-25px, -25px, 128px, 128px);
+  }
+
+  &.sprite-email-sociocon {
+    .stitches-sprite(-203px, -25px, 128px, 128px);
+  }
+
+  &.sprite-facebook-sociocon {
+    .stitches-sprite(-381px, -25px, 128px, 128px);
+  }
+
+  &.sprite-flickr-sociocon {
+    .stitches-sprite(-25px, -203px, 128px, 128px);
+  }
+
+  &.sprite-github-sociocon {
+    .stitches-sprite(-203px, -203px, 128px, 128px);
+  }
+
+  &.sprite-google-sociocon {
+    .stitches-sprite(-381px, -203px, 128px, 128px);
+  }
+
+  &.sprite-linkedin-sociocon {
+    .stitches-sprite(-25px, -381px, 128px, 128px);
+  }
+
+  &.sprite-pinterest-sociocon {
+    .stitches-sprite(-203px, -381px, 128px, 128px);
+  }
+
+  &.sprite-rss-sociocon {
+    .stitches-sprite(-381px, -381px, 128px, 128px);
+  }
+
+  &.sprite-twitter-sociocon {
+    .stitches-sprite(-559px, -25px, 128px, 128px);
+  }
+
+  &.sprite-vimeo-sociocon {
+    .stitches-sprite(-559px, -203px, 128px, 128px);
+  }
+
+  &.sprite-youtube-sociocon {
+    .stitches-sprite(-559px, -381px, 128px, 128px);
+  }
+}
+/* !sprites */
+
 
 html { font-size: 62.5%; } 
 
@@ -135,6 +195,7 @@ body {
       left: 0;
       margin-left: 0;
       position: absolute;
+      text-align: left;
       top: 2em;
       width: 150px;
     }

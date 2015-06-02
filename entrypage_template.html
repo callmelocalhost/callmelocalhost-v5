@@ -24,45 +24,44 @@
       [[ nextentry text='<a href="%link%" class="next">%title% &rarr;</a>' incategory="0" ]]
     </div>
     <section class="comments">
-        
-        [[ if count($entry.trackbacks) !=0 ]]<h2>Trackbacks</h2>
-        <ol>
-        [[ /if ]]
-        [[ trackbacks ]]
-            %anchor%
-            <li>
-                %editlink% Op %date% stuurde <cite>%url%</cite> de trackback <strong>%title%</strong>:
-                <br />%excerpt%
-            </li>
-        [[ /trackbacks ]]   
-        [[ if count($entry.trackbacks) != 0 ]]
-        </ol>
-        [[ /if ]]
+      [[ if count($entry.trackbacks) !=0 ]]<h2>Trackbacks</h2>
+      <ol>
+      [[ /if ]]
+      [[ trackbacks ]]
+          %anchor%
+          <li>
+              %editlink% Op %date% stuurde <cite>%url%</cite> de trackback <strong>%title%</strong>:
+              <br />%excerpt%
+          </li>
+      [[ /trackbacks ]]   
+      [[ if count($entry.trackbacks) != 0 ]]
+      </ol>
+      [[ /if ]]
+      
+      [[ if count($entry.comments) != 0 ]]
+      <h2>Reacties</h2>
+      <ol class="reacties" itemscope itemtype="http://schema.org/UserComments">
+      [[ /if ]]
+      [[ comments default_gravatar=http://callmelocalhost.com/pivotx/templates/callmelocalhost-v3/images/gravatar-fallback.jpeg]]
+          <li class="%name_attr% %even-odd%">%anchor%
+              <img class="gravatar" src="%gravatar%" alt="%name%" />
+              <cite>Op <span itemprop="commentTime">%date%</span> schreef <span itemprop="name">%url-to-name%</span></cite>
+              <span class="reactie" itemprop="commentText">%comment% %editlink%</span>
+          </li>
+      [[ /comments ]]   
+      [[ if count($entry.comments) != 0 ]]
+      </ol>
+      [[ /if ]]
 
-        
-        [[ if count($entry.comments) != 0 ]]
-        <h2>Reacties</h2>
-        <ol class="reacties" itemscope itemtype="http://schema.org/UserComments">
-        [[ /if ]]
-        [[ comments default_gravatar=http://callmelocalhost.com/pivotx/templates/callmelocalhost-v3/images/gravatar-fallback.jpeg]]
-            <li class="%name_attr% %even-odd%">%anchor%
-                <img class="gravatar" src="%gravatar%" alt="%name%" />
-                <cite>Op <span itemprop="commentTime">%date%</span> schreef <span itemprop="name">%url-to-name%</span></cite>
-                <span class="reactie" itemprop="commentText">%comment% %editlink%</span>
-            </li>
-        [[ /comments ]]   
-        [[ if count($entry.comments) != 0 ]]
-        </ol>
-        [[ /if ]]
-
-        <h2>Reageer</h2>
-        <p>
-            Reageren? Stuur een trackback [[ tracklink format='(%url%)']] of gebruik onderstaand formulier. 
-        </p>
-        
-        [[message]]
-        
-        [[ include file="_sub_commentform_extended.html" ]]
+      <h2>Reageer</h2>
+      <p>
+          Reageren? Stuur een trackback [[ tracklink format='(%url%)']] of gebruik onderstaand formulier. 
+      </p>
+      
+      [[message]]
+      
+      [[ include file="_sub_commentform_extended.html" ]]
+    </section>  
   </article>
 
 [[ include file="callmelocalhost-v5/_sub_footer.html" ]]
