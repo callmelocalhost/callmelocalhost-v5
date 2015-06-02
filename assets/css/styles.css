@@ -465,6 +465,7 @@ body .footer-container footer #social.icons li a:hover {
     padding-left: 0;
   }
   body article p.meta {
+    padding-bottom: 1em;
     position: relative;
     width: 100%;
   }
