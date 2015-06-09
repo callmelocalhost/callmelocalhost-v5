@@ -1,10 +1,12 @@
 /* Externals */
-@import url(normalize.min.css);
-@import url(main.css);
+@import (inline) 'normalize.min.css';
+@import (inline) 'main.css';
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600|Noto+Sans);
 @import url(elements.less);
-@import url(http://callmelocalhost.com/pivotx/extensions/syntaxhighlighter/styles/shCore.css); // for brush
-@import url(http://callmelocalhost.com/pivotx/extensions/syntaxhighlighter/styles/shThemeDefault.css); // for brush
+@import (inline) 'shCore.css'; // for brush
+@import (inline) 'shThemeDefault.css'; // for brush
+
+/* Styling fonts */
 @font-face {
     font-family: "Noto Sans";
     font-style: normal;
