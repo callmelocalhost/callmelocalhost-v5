@@ -1,3 +1,13 @@
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- localhost -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3926575228748427"
+     data-ad-slot="7832198391"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     </div> <!-- #main -->
   </div> <!-- #main-container -->
 
@@ -40,37 +50,37 @@
           <a title="RSS" href="http://callmelocalhost.com/rss" class="rss"></a>
         </li>
       </ul>
-      <p> 
+      <p>
       [[if $modifier.pagetype=="search"]]
           [[assign var=placeholder value=$modifier.uri|escape]]
       [[else]]
           [[assign var=placeholder value="Zoeken..."]]
       [[/if]]
-      <form method="post" action="[[home]]?q=" class="pivotx-search"> 
+      <form method="post" action="[[home]]?q=" class="pivotx-search">
         Copyright &copy; 2002 - [[date format="%year%"]] Jarno de Wit, <a href="http://callmelocalhost.com/page/over">Over</a>
         <a class="snap_nopreview" onclick="javascript:urchinTracker ('/outgoing/CC3'); " title="Creative Commons" href="http://creativecommons.org/licenses/by-nc-sa/3.0/nl/">
           CC some rights reserved
         </a>
         &nbsp;&nbsp;
-        <input id="search" type="text" name="q" class="searchbox" 
-              value="[[$placeholder]]" onblur="if(this.value=='') this.value='[[$placeholder]]';" 
-              onfocus="if(this.value=='[[$placeholder]]') this.value=''; this.select();return true;" /> 
-        <!-- Javascript enabled Jumpmenu for the archives -->  
-        <select id="archivemenu" style='display:none;'>  
-          [[ archive_list unit='month' order='desc'  
-             format='<option value="%url%">%st_monname% %st_year%</option>'  
+        <input id="search" type="text" name="q" class="searchbox"
+              value="[[$placeholder]]" onblur="if(this.value=='') this.value='[[$placeholder]]';"
+              onfocus="if(this.value=='[[$placeholder]]') this.value=''; this.select();return true;" />
+        <!-- Javascript enabled Jumpmenu for the archives -->
+        <select id="archivemenu" style='display:none;'>
+          [[ archive_list unit='month' order='desc'
+             format='<option value="%url%">%st_monname% %st_year%</option>'
           ]]
-        </select> 
-        <!-- Accessible version, for users without Javascript -->  
-        <noscript>  
-        <ul>  
-        [[ archive_list  
-           unit='month'  
-           order='desc'  
-           format='<li><a href="%url%">%st_monname% %st_year%</a></li>'       
-        ]]  
-        </ul>   
-        </noscript> 
+        </select>
+        <!-- Accessible version, for users without Javascript -->
+        <noscript>
+        <ul>
+        [[ archive_list
+           unit='month'
+           order='desc'
+           format='<li><a href="%url%">%st_monname% %st_year%</a></li>'
+        ]]
+        </ul>
+        </noscript>
       </form>
       [[php]]
       function tla_ads()
@@ -84,11 +94,11 @@
           // You should create a blank file and CHMOD it to 666
           $LOCAL_FILENAME = 'local_381783.xml';
           $OUTPUT_DECODING = false;  // example methods are BIG-5 ISO for fill list see http://www.php.net/manual/en/function.mb-list-encodings.php
-          
-          
+
+
           // make sure output decoding is an option with iconv existing
           $OUTPUT_DECODING = $OUTPUT_DECODING && function_exists('iconv') ? $OUTPUT_DECODING : false;
-          
+
           if (!file_exists($LOCAL_FILENAME)) {
               @touch($LOCAL_FILENAME);
               @chmod($LOCAL_FILENAME, 0666);
@@ -104,7 +114,7 @@
 
           if (filemtime($LOCAL_FILENAME) < (time() - 3600) || filesize($LOCAL_FILENAME) < 3) {
               $url = 'http://www.text-link-ads.com/xml.php?k=VTMBMWJH4E6TQRMXKTQS&l=php-tla-2.0.5';
-              
+
               if (function_exists('json_decode') && is_array(json_decode('{"a":1}', true))) {
                   $url .= '&f=json';
               }
